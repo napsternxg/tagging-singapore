@@ -12,5 +12,5 @@ The Project Demo can be seen at: [http://napsternxg.appspot.com/maps Demo]
 
 Detailed Presentation about the Project can be found at:
 
-![Tagging Singapore Presentation]http://www.slideshare.net/shubhanshu/tagging-singapore-web20-f-inal
+[Tagging Singapore Presentation](http://www.slideshare.net/shubhanshu/tagging-singapore-web20-f-inal)
 ==================================
