@@ -1,0 +1,26 @@
+.tags{
+	margin:0 5px;
+	background-color:#aaaaaa;
+	-moz-border-radius:5px;
+	border-radius:5px;
+	padding:2px;
+}
+.taglist{
+	display:inline;
+	border:#000000 thin;
+	-moz-border-radius:2px;
+	border-radius:2px;
+}
+.tags#none{
+	background-color:#dddd44;
+}
+.addTag{
+	float:right;
+}
+.addTagForm{
+	margin:0;
+}
+.addTagForm input:submit{
+	background:#123456;
+	-moz-border-radius: 5px;
+}

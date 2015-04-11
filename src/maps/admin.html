@@ -1,0 +1,149 @@
+<!DOCTYPE html "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" 
+  xmlns:v="urn:schemas-microsoft-com:vml">
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <title>gothere.sg - API Examples - Basic map</title>
+	  <script type="text/javascript" language="javascript">
+	   var http_request = false;
+	   function makePOSTRequest(url,parameters, func) {
+	      http_request = false;
+	      if (window.XMLHttpRequest) { // Mozilla, Safari,...
+	         http_request = new XMLHttpRequest();
+	         if (http_request.overrideMimeType) {
+	         	// set type accordingly to anticipated content type
+	            //http_request.overrideMimeType('text/xml');
+	            http_request.overrideMimeType('text/html');
+	         }
+	      } else if (window.ActiveXObject) { // IE
+	         try {
+	            http_request = new ActiveXObject("Msxml2.XMLHTTP");
+	         } catch (e) {
+	            try {
+	               http_request = new ActiveXObject("Microsoft.XMLHTTP");
+	            } catch (e) {}
+	         }
+	      }
+	      if (!http_request) {
+	         alert('Cannot create XMLHTTP instance');
+	         return false;
+	      }
+	      
+	      http_request.onreadystatechange = func;		  	
+		 
+	      http_request.open('POST', url, true);
+	      http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	      http_request.setRequestHeader("Content-length", parameters.length);
+	      http_request.setRequestHeader("Connection", "close");
+	      http_request.send(parameters);
+	   }
+	
+	   function alertContents() {
+	      if (http_request.readyState == 4) {
+	         if (http_request.status == 200) {
+	            //alert(http_request.responseText);
+	            result = http_request.responseText;
+				result=result.split(",");
+				if (result[1] != "0") {
+					var id = document.getElementById(result[0]);
+					for (i = 2; i < 2+Number(result[1]); i++) {
+						var tag = document.createElement("span");
+						tag.setAttribute("class", "tags");
+						tag.appendChild(document.createTextNode(result[i]));
+						id.appendChild(tag);
+					}
+					if(id.childNodes[0].id=="none"){
+						id.removeChild(id.childNodes[0]);
+					}
+				//id.appendData(result[1]);
+				//alert( result[0]+"   "+result[1]+"   "+result[2] );   
+				}  
+				document.getElementById(result[0] + "_add").value = "";       
+	         } else {
+	            alert('There was a problem with the request.');
+	         }
+	      }
+	   }
+
+	   
+	   function addEntity(){
+	   		if (http_request.readyState == 4) {
+	         if (http_request.status == 200) {
+			 	eval(http_request.responseText);
+			 }
+			 else {
+	            alert('There was a problem with the request.');
+	         }
+	      }
+	   }
+	   function update(id,url,fn){
+	   	var poststr="";
+	   	if (fn != addEntity) {
+			poststr = "locationTag=" + encodeURI(document.getElementById(id + "_add").value) + "&locationName=" + encodeURI(id);
+		}
+		else{
+			poststr = "locationName=" + encodeURI(document.locationName.value) + "&locationAddress=" + encodeURI(document.locationAddress.value)+"&locationTags=" + encodeURI(document.locationTags.value);
+		}
+			
+	      makePOSTRequest(url, poststr,fn);
+	   }
+</script>
+<style>
+	.tags{
+		margin:0 5px;
+		background-color:#aaaaaa;
+		-moz-border-radius:5px;
+		border-radius:5px;
+		padding:2px;
+	}
+	.taglist{
+		display:inline;
+		border:#000000 thin;
+		-moz-border-radius:2px;
+		border-radius:2px;
+	}
+	.tags#none{
+		background-color:#dddd44;
+	}
+	.addTag{
+		float:right;
+	}
+</style>
+  </head>
+  <body>
+  	<table width="100%" id="directory" summary="These are all teh locations that have been successfully mapped in this application.
+ Please take time to add the necessary categorization to these locations." >
+    <caption>
+        <h1>Locations Details</h1>
+    </caption>
+    <tr>
+        <th>Name</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Tags</th>
+        <th>Submit</th>
+    </tr>
+    {% for location in locations %}<tr>
+        <td>{{location.locationName}}</td>
+        <td>{{location.locationLatitude}}</td>
+        <td>{{location.locationLongitude}}</td>
+        <td><div id="{{location.locationName}}" class="taglist">{% if location.locationTag|length %}{% for tag in location.locationTag %}<span class="tags">{{ tag }}</span>{% endfor %}{% else %}<span class="tags" id="none">None</span>{% endif%}</div><input type="text" name="tag" id="{{location.locationName}}_add" value="" class="addTag" /></td>
+        <td><input type="button" onclick='javascript:update("{{location.locationName}}", "./", alertContents);' value="Submit" /></td>
+    </tr>{% endfor %}
+</table>
+<div id="form">
+	<h2>Add New Entry:</h2>
+	<form method="post" action="./add/" onsubmit="return false;">
+		<fieldset>
+			<table width="200">
+			<tr><td><label>*Place Name</lable></td><td><input type="text" name="locationName" /></td></tr>
+			<tr><td><label>*Address</lable></td><td><textarea name="locationAddress"></textarea></td></tr>
+			<tr><td><label>*Tags<i>(separated by commas)</i></lable></td><td><textarea name="locationTags"></textarea></td></tr>
+			<tr><td colspan="2"><input type="submit" value="Add" onclick='javascript:update("", "./", addEntity);return false;'/><input type="reset" value="Cancel"/></td></tr>
+			</table>
+		</fieldset>
+	</form>
+</div>
+  </body>
+  </html>

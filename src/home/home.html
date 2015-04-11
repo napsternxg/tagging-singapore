@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <meta name="generator" content="NapsterNXG's Google Applications Home." />
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+		<meta name="keywords" content="NapsterNXG;Google App Engine;Hello World;Home;Go there API;{{author}}"/>
+        <title>{{name}}</title>
+        <link rel="stylesheet" type="text/css" href="../stylesheets/home.css" />
+    </head>
+
+    <body>
+        <div id="header">
+            <a href="/home/" id="title">{{name}}</a>
+			<a id="homepage" href="{{homepage}}">NapsterNXG's Homepage</a>
+		</div>
+		<div id="centerdiv">
+			<center>
+		        <div id="main">
+		        	<h1>{{name}}'s GAE Applications</h1>
+		        	<div id="author">
+		        		This website has been designed by <span id="name">{{author}}</span>.You can visit my <a href="{{homepage}}">Homepage</a> for more details about me.
+					</div>
+					<hr />
+		            <div id="intro">
+		                <p>Hi guys this is my first run with something as
+		                amazing as Google App Engine.<br />
+		                 I am really loving it and in the process, I have
+		                made a few applications.<br />
+		                 I am sharing here with all of you some of my first
+		                examples in google app engine.<br />
+		                 If you like them please comment by clicking <a
+		                href="/hello/">here</a>.Also all kind of suggestion
+		                and improvements are welcome.</p>
+		            </div>
+					<hr />
+		            <div id="apps">
+		            	<h2>Application Listing</h2>
+		                <p>Here is the list of the applications I have
+		                made with GAE till now.</p>
+		
+		                <ol id="applist">
+		                    {% for item in apps.items %}
+		
+		                    <li><a href="{{item.1}}">{{item.0}}</a></li>
+		                    {% endfor %}
+		                </ol>
+		            </div>
+					<hr />
+		        </div>
+			</center>
+		</div>
+        <div id="footer">
+            <ul id="footerlinks">
+                {% for item in apps.items %}
+
+                <li><a href="{{item.1}}">{{item.0}}</a> |</li>
+                {% endfor %}
+            </ul>
+
+            <ul id="footerdetails">
+                <li><a href="mailto:shubhanshumishra@gmail.com">Contact</a> |</li>
+                {% for item in blogs.items %}
+
+                <li><a href="{{item.1}}">{{item.0}}</a> |</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </body>
+</html>
+

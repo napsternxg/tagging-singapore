@@ -1,0 +1,76 @@
+body{
+	background-color: #000000;
+	font: 14px arial;
+	color: #000000;
+	margin:auto;
+}
+
+a,a:HOVER,a:ACTIVE,a:VISITED{
+	text-decoration: none;
+	
+}
+
+#header{
+	width: auto;
+	height: 150px;
+	background-color: #000000;
+	font-family: Tahoma;
+	color:#ffffff;
+}
+
+#header a#title,#header a#title:HOVER,#header a#title:VISITED,#header a#title:ACTIVE{
+	font-size:28px;
+	float: left;
+	padding: 50px;
+	color:#ffffff;
+}
+
+#header a#homepage,#header a#homepage:HOVER,#header a#homepage:VISITED,#header a#homepage:ACTIVE{
+	font-size:20px;
+	float:right;
+	padding: 10px;
+	color:#dddddd;
+}
+
+#centerdiv{
+	background-color: #ffffff;
+}
+#main{
+	width: 800px;
+	text-align: left;
+	padding: 20px;	
+	min-height: 520px;
+	border-color: #999999;
+	border-width: 5px;
+}
+
+#footer{
+	width: auto;
+	height: 30px;
+	background-color: #000000;
+	font:14px Tahoma;
+	color:#ffffff;
+}
+
+#footer a:HOVER,#footer a,#footer a:VISITED,#footer a:ACTIVE{
+	text-decoration: none;
+	color:#ffffff;
+}
+
+#footer li{
+	float:left;
+	padding: 10px 5px;
+	list-style-type: none;
+}
+
+#footer #footerlinks{
+	float:left;
+	padding:10px;
+	list-style-type: none;
+}
+
+#footer #footerdetails{
+	float:right;
+	padding:10px;
+	list-style-type: none;
+}

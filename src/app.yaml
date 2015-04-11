@@ -1,0 +1,38 @@
+application: napsternxg
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /stylesheets/
+  static_dir: stylesheets
+
+- url: /javascripts/
+  static_dir: javascripts
+  
+- url: /images/
+  static_dir: images
+
+- url: /hello/.*
+  script: helloworld/helloworld.py
+
+- url: /
+  script: home/index.py
+
+- url: /home/.*
+  script: home/index.py
+
+- url: /maps/updatedb/.*
+  script: maps/xmlHandler.py
+
+- url: /maps/admin/.*
+  script: maps/admin.py
+  
+- url: /maps/test/.*
+  script: maps/test.py
+  
+- url: /maps/.*
+  script: maps/mapAPI.py
+  
+
+

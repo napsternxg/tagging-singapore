@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<locations>
+  <location>
+	<name>Esplanade</name>
+	<address></address>
+	<latitude>1.28964</latitude>
+	<longitude>103.856</longitude>
+	<tags>Shopping, Tourism, Movies, Theater</tags>
+  </location>
+  <location>
+    <name>Istana</name>
+	<address></address>
+	<latitude>1.30719</latitude>
+	<longitude>103.843</longitude>
+    <tags>President</tags>
+  </location>
+  <location>
+    <name>Old Parliament House</name>
+	<address></address>
+    <latitude>1.28879</latitude>
+	<longitude>103.851</longitude>
+    <tags>Parliament</tags>
+  </location>
+  <location>
+    <name>Raffles Hotel</name>
+	<address></address>
+	<latitude>1.29572</latitude>
+	<longitude>103.854</longitude>
+    <tags>Hotel</tags>
+  </location>
+  <!-- imagine more entries here... -->
+</locations>

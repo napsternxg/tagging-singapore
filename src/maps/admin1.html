@@ -1,0 +1,121 @@
+<!DOCTYPE html "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" 
+  xmlns:v="urn:schemas-microsoft-com:vml">
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <title>gothere.sg - API Examples - Basic map</title>
+	  <link type="text/css" rel="stylesheet" href="../../stylesheets/admin.css" />
+	  <script type="text/javascript" src="/javascripts/jquery.js"></script>
+	  <script type="text/javascript" language="javascript">
+	  	function addTags(forms){
+			if (forms.length < 1) {
+				forms = $(".addTagForm");
+			}
+			forms.submit(function(){
+				var f=$(this);
+				$.ajax( {
+			      type: "POST",
+			      url: f.attr( 'action' ),
+			      data: f.serialize(),
+			      success: function( response ) {
+			        console.log( response );
+					var id=$("[name=locationName]",f).val();
+					id=id.replace(/ /g,"");
+					//alert("ID:"+id);
+					result=response.split(",");
+					if (result[1] != "0") {
+						id = $("#"+id);
+						//alert("ID:"+id);
+						var taglist=$('.taglist', id);
+						//alert(taglist);
+						for (i = 2; i <=1+Number(result[1]); i++) {
+							taglist.append("<span class='tags'>"+result[i]+"</span>");
+							//alert("Added "+result[i]);
+						}
+						try {
+							$("#none", id).remove();
+						} catch (e) {
+							alert(e);
+						}
+
+
+						//id.appendData(result[1]);
+						//alert( result[0]+"   "+result[1]+"   "+result[2] );   
+						}  
+					
+					f[0].reset();
+			      }
+			    });					
+			});
+		}
+	  	$(document).ready( function() {
+			var form=$("#addEntity");
+			form.submit(function(){
+				
+				$.ajax( {
+			      type: "POST",
+			      url: form.attr( 'action' ),
+			      data: form.serialize(),
+			      success: function( response , data) {
+			        //console.log( response );
+					var t=$("#directory");
+					if($('tbody', t).length > 0){
+			            $('tbody', t).append(response);
+			        }else {
+			            $(this).append(response);
+			        }
+					form[0].reset();
+					//alert("data: "+form.serialize());
+			      }
+			    });				
+			});
+			addTags([]);
+			
+		});
+	  </script>
+
+  </head>
+  <body>
+  	<table width="100%" id="directory" summary="These are all teh locations that have been successfully mapped in this application.
+ Please take time to add the necessary categorization to these locations." >
+    <caption>
+        <h1>Locations Details</h1>
+    </caption>
+    <tr>
+        <th>Name</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Tags</th>        
+    </tr>
+    {% for location in locations %}<tr id='{{location.locationName|cut:" "}}'>
+        <td>{{location.locationName}}</td>
+        <td>{{location.locationLatitude}}</td>
+        <td>{{location.locationLongitude}}</td>
+        <td>
+        	<div class="taglist">{% if location.locationTag|length %}{% for tag in location.locationTag %}<span class="tags">{{ tag }}</span>{% endfor %}{% else %}<span class="tags" id="none">None</span>{% endif%}</div>
+			<div class="addTag">
+				<form action="./" method="POST" class="addTagForm" onsubmit="return false;">
+					<input type="hidden" name="locationName" value="{{location.locationName}}" />
+					<input type="text" name="locationTag" value="" />
+					<input type="submit" value="Submit" />
+				</form>
+			</div>
+		</td>        
+    </tr>{% endfor %}
+</table>
+<div id="form">
+	<h2>Add New Entry:</h2>
+	<form method="post" action="./add/" id="addEntity" onsubmit="return false;">
+		<fieldset>
+			<table width="200">
+			<tr><td><label>*Place Name</lable></td><td><input type="text" name="locationName" /></td></tr>
+			<tr><td><label>*Address</lable></td><td><textarea name="locationAddress"></textarea></td></tr>
+			<tr><td><label>*Tags<i>(separated by commas)</i></lable></td><td><textarea name="locationTags"></textarea></td></tr>
+			<tr><td colspan="2"><input type="submit" value="Add" /><input type="reset" value="Cancel"/></td></tr>
+			</table>
+		</fieldset>
+	</form>
+</div>
+  </body>
+  </html>

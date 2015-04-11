@@ -1,0 +1,63 @@
+body{
+	margin:0px 0px;
+}
+a,a:hover,a:visited{
+	text-decoration: none;
+	color: inherit;
+}
+#header{
+	height: 200px;
+	width: auto;
+	background-color: #11AAAA;
+	color: #ffffff;
+	margin:0px;
+}
+#heading{
+	margin: 10px;
+	padding: 10px
+}
+#map{
+	height: 500px;
+	width: 820px;
+	padding: 5px;
+}
+.form{
+	width: 300px;
+	float: left;
+}
+.sections{
+	padding: 10px;
+}
+#sidebar{
+	width:300px;
+	position:relative;
+	top: -510px;
+}
+#leftBar{
+	border: solid 2px #11AAAA;
+	width: 850px;
+	margin-left:350px;
+	top:250px;
+}
+.button{
+	background: transparent url(/images/button-gothere-white.gif) repeat scroll 0 0;
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	width: 94px;
+	font-size: 16px;
+	font-weight: bold;
+	height: 34px;
+	letter-spacing: -1px;
+	margin: 26px 0 0;
+	padding: 0;
+	outline-style: none;
+	border:0 ;
+}
+#footer{
+	height: 100px;
+	width: auto;
+	background-color: #11AAAA;
+	color: #ffffff;
+	margin:0px;
+}

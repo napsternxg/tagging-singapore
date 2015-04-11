@@ -1,0 +1,147 @@
+<!DOCTYPE html "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" 
+  xmlns:v="urn:schemas-microsoft-com:vml">
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <title>gothere.sg - API Examples - Basic map</title>
+	  <link type="text/css" rel="stylesheet" href="../../stylesheets/map.css" />
+	  <script type="text/javascript" src="http://gothere.sg/jsapi?sensor=false"> </script>
+	  <script type="text/javascript" src="/javascripts/main.js"></script>
+	  <script type="text/javascript">
+	  	var center={
+			location:"{{location}}",
+			latitude:{{latitude}},
+			longitude:{{longitude}}
+		};
+	  	var locations = [{% for location in locationDir %}["{{location.locationName}}", [{{location.locationLatitude}}, {{location.locationLongitude}}], [{% for tag in location.locationTag %}"{{tag}}",{% endfor %}]],{% endfor %}];
+			function initialize() {
+			if (GBrowserIsCompatible()) {
+				// Create the Gothere map object.
+				map = new GMap2(document.getElementById("map"));
+				// Set the center of the map.
+				var coords=new GLatLng(center.latitude, center.longitude);
+				map.setCenter(coords, 15);
+				// Add zoom controls on the top left of the map.
+				map.addControl(new GLargeMapControl3D ());
+				// Add a scale bar at the bottom left of the map.
+				map.addControl(new GScaleControl());
+				var baseIcon = new GIcon();
+            	baseIcon.image = "http://www.google.com/mapfiles/markerA.png";
+            	baseIcon.shadow = "http://www.google.com/mapfiles/shadow50.png";
+            	baseIcon.iconSize = new GSize(20, 34);
+                baseIcon.shadowSize = new GSize(37, 34);
+                baseIcon.iconAnchor = new GPoint(9, 34);
+                baseIcon.infoWindowAnchor = new GPoint(5, 29);
+
+				var marker=new GMarker(coords);
+				map.addOverlay(marker);
+				marker.bindInfoWindow("<h3>" + center.location + "</h3>");
+						
+				// Create a marker for each location.
+				for (var i = 0, n = locations.length; i < n; i++) {
+				    var location = locations[i];
+					var customIcon = new GIcon(baseIcon);
+            	    var letter = String.fromCharCode("A".charCodeAt(0) + i);
+            	    customIcon.image = "http://www.google.com/mapfiles/marker" + letter + ".png";
+
+				    var marker = new GMarker(new GLatLng(location[1][0], location[1][1]),{icon:customIcon});
+					map.addOverlay(marker);
+					// Show an infowindow when the marker is clicked.
+					marker.bindInfoWindow("<h3>" + location[0] + "</h3><br /><h4>Tags:</h4>"+location[2]);
+				}
+				geocoder = new GClientGeocoder();
+            	amenities = new GAmenities(map, document.getElementById("panelAmenities"));
+            	directions = new GDirections(map, document.getElementById("panelDirection"));
+
+			}
+		}
+	  </script>
+      
+  </head>
+  <body>
+  	<div id="header"><a href="./"><h1 id="heading">Tagging Singapore</h1></a></div>
+	<div id="mainBody">
+			<div id="leftBar" class="sections">
+      <div id="map"></div>
+	  <!--<div id="SearchName" class="form">
+	    <form action="/maps/" method="post">
+	      <input type="hidden" name="posted" value="name" />
+	      <fieldset>
+	      <div><label>Name:<input type="text" name="location" value="{{location|escape}}" /></label></div>
+	      <div><input type="submit" value="Locate" /></div>
+	      </fieldset>
+	    </form>
+      </div>  
+	  <div id="SearchCoords" class="form">
+	      <form action="/maps/" method="post">
+	      <input type="hidden" name="posted" value="coord" />
+	      <fieldset>
+	      <div><label>Latitude:<input type="text" name="latitude" value="{{latitude}}"/></label></div>
+	      <div><label>Longitude:<input type="text" name="longitude" value="{{longitude}}" /></label></div>
+	      <div><label>Tag:<input type="text" name="tag" value="{{tag}}" /></label></div>
+	      <div><input type="submit" value="Locate" /></div>
+	      </fieldset>
+	      </form>
+	</div>-->
+	</div>
+	<div id="sidebar" class="sections">
+  		
+		<div id="SearchName" class="form">
+			<h2>Location</h2>
+	    <form action="/maps/" method="post">
+	      <input type="hidden" name="posted" value="name" />
+	      <div>
+	      	<label>Name:<input type="text" name="location" value="{{location|escape}}" /></label>
+		  	<input type="submit" value="Locate" class="button" />
+		  </div>
+	      <div></div>
+	    </form>
+      </div>  
+		<div id="amenities"><h2>Amenities</h2>
+        <form action="#" onsubmit="getAmenities(this.query.value, this.category.value);return false;">
+            <p>
+
+                <input type="hidden" size="30" name="query" value="{{location}}"/>
+            </p>
+            <p>
+                <label style="width:70px;display:inline-block;">Category:</label>
+                <select name="category">
+                    <option value="supermarkets" selected=selected>Supermarkets</option>
+
+                    <option value="clinics">Clinics</option>
+                    <option value="postoffices">Post offices</option>
+                    <option value="schools">Schools</option>
+                    <option value="atms">ATMs</option>
+                    <option value="banks">Banks</option>
+                    <option value="petrolkiosks">Petrol Kiosks</option>
+
+                    <option value="busstops">Bus Stops</option>
+                    <option value="railstations">Rail Stations</option>
+                </select> 
+                <input type="submit" value="Search" style="margin-left:15px" class="button"/>
+            </p>
+        </form>
+        <div id="panelAmenities"></div>
+		</div>
+		<div id="direction"><h2>Directions</h2>
+			        <form action="#" onsubmit="getDirections(this.from.value, this.to.value, this.mode.value);return false;">
+            <input type="hidden" size="34" name="from" value="{{location}}"/>
+            <p><label style="width:50px;display:inline-block;">To:</label><input type="text" size="34" name="to" value="Orchard Road"/></p>
+            <p><label style="width:50px;display:inline-block;">Via:</label><select name="mode"><option value="pt" selected=selected>Public Transport</option><option value="t">Taxi</option><option value="c">Car</option></select>
+			 <input type="submit" value="Search" style="margin-left:25px" class="button"/></p>
+        </form>
+
+        <div id="panelDirection"></div>
+
+		</div>
+    </div>
+
+  	
+  	</div>
+	
+<div id="footer">
+	<a href="./"><span id="heading">Tagging Singapore</span></a>
+</div>
+	</body>
+</html>

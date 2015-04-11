@@ -1,0 +1,15 @@
+<tr id='{{location.locationName|cut:" "}}'>
+        <td>{{location.locationName}}</td>
+        <td>{{location.locationLatitude}}</td>
+        <td>{{location.locationLongitude}}</td>
+        <td>
+        	<div class="taglist">{% if location.locationTag|length %}{% for tag in location.locationTag %}<span class="tags">{{ tag }}</span>{% endfor %}{% else %}<span class="tags" id="none">None</span>{% endif%}</div>
+			<div class="addTag">
+				<form action="./" method="POST" class="addTagForm" onsubmit="return false;">
+					<input type="hidden" name="locationName" value="{{location.locationName}}" />
+					<input type="text" name="locationTag" value="" />
+					<input type="submit" value="Submit" />
+				</form>
+			</div>
+		</td>        
+    </tr>
